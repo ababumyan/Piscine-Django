@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex02</title>
+    <script src="./popup.js"></script>
+
+</head>
+<body>
+    <form onsubmit="(e)=>e.preventDefault(); displayFormContents()">
+        <label for="Firstname">Name:</label>
+        <input type="text" id="firstname" name="Firstname"><br><br>
+
+        <label for="Name">Surname:</label>
+        <input type="text" id="name" name="Name"><br><br>
+
+        <label for="Age">Age:</label>
+        <input type="number" id="age" name="Age"><br><br>
+
+        <label for="Phone">Phone:</label>
+        <input type="tel" id="phone"   name="phone"><br><br>
+
+        <label for="Email">Email:</label>
+        <input type="email" id="email" name="Email"><br><br>
+
+        <label for="Student">Student at 42?:</label>
+        <input type="checkbox" id="student" name="Student"><br><br>
+
+        <p>Gender:</p><br>
+
+        <input type="radio" id="gender_male" name="gender" value="male">
+        <label for="gender_male">Male</label><br>
+
+        <input type="radio" id="gender_female" name="gender" value="female">
+        <label for="gender_female">Female</label><br>
+
+        <input type="radio" id="gender_other" name="gender" value="other">
+        <label for="gender_other">other</label><br><br>
+
+        
+        
+
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
