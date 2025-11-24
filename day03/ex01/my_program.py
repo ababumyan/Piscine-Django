@@ -10,7 +10,7 @@ def main() -> int:
     work_dir.mkdir(parents=True, exist_ok=True)
 
     file_path = work_dir / 'test_file.txt'
-    content = 'Hello from path.Path!\n'
+    content = 'Hello World!!!!\n'
 
     with file_path.open('w') as f:
         f.write(content)
@@ -18,7 +18,7 @@ def main() -> int:
     with file_path.open('r') as f:
         data = f.read()
 
-    print(f'Wrote and read from: {file_path}')
+    print(f'Write and read from: {file_path}')
     print(data)
 
     return 1

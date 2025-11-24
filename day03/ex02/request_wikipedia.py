@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 from __future__ import annotations
 
 import argparse
@@ -40,7 +39,6 @@ def search_best_title(query: str, lang: str = 'en') -> Optional[str]:
         r = SESSION.get(api, params=params, timeout=20)
         r.raise_for_status()
     except requests.HTTPError as e:
-        # give a clearer message for 403 Forbidden from Wikimedia
         if getattr(e.response, 'status_code', None) == 403:
             print("Network error when querying Wikipedia: 403 Forbidden - the API may require a proper User-Agent.", file=sys.stderr)
         else:
@@ -96,7 +94,6 @@ def get_extract_for_title(title: str, lang: str = 'en') -> Optional[str]:
     if not pages:
         return None
 
-    # pages is a dict keyed by pageid
     for page in pages.values():
         extract = page.get('extract')
         if extract:
@@ -135,11 +132,9 @@ def main(argv: list[str]) -> int:
         print('Error: could not retrieve page content.', file=sys.stderr)
         return 1
 
-    # The file name must not contain spaces
     filename = sanitize_filename(query)
     try:
         with open(filename, 'w', encoding='utf-8') as f:
-            # Write a header line with the chosen article title, then the extract
             f.write(f"Title: {title}\n\n")
             f.write(extract)
     except OSError as e:
