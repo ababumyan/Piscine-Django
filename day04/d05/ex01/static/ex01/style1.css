@@ -1,0 +1,174 @@
+/* Base settings */
+:root {
+    --bg-color: #0f1724;
+    --card-color: #1e293b;
+    --text-color: #e2e8f0;
+    --accent-color: #3b82f6;
+    --accent-hover: #60a5fa;
+    --font-primary: 'Inter', sans-serif;
+    --radius: 12px;
+    --transition: 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: linear-gradient(135deg, #0f1724, #1e293b);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    gap: 20px;
+    background-color: rgba(15, 23, 36, 0.9);
+    padding: 16px 32px;
+    border-radius: var(--radius);
+    margin-bottom: 32px;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    transition: all var(--transition);
+}
+
+nav a:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Content container */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Card-like sections */
+section {
+    background-color: var(--card-color);
+    padding: 24px;
+    margin-bottom: 24px;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: var(--accent-color);
+    margin-bottom: 16px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+    color: #60a5fa;
+}
+
+/* Paragraphs */
+p, li {
+    color: var(--text-color);
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+/* Code blocks */
+pre, code {
+    background-color: #0f1724;
+    border-left: 4px solid var(--accent-color);
+    padding: 12px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    display: block;
+    font-family: 'Fira Code', monospace;
+    margin-bottom: 16px;
+}
+
+/* Links inside content */
+a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    transition: color var(--transition);
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+}
+
+th, td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    section {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+}

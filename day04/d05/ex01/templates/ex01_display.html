@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block title %}Ex01: Display process of a static page.{% endblock %}
+
+{% block content %}
+<h1>Display process of a static page</h1>
+<p>A user sends a request to a URL. Django checks the URL patterns to match the request. A corresponding view function is executed and returns an HttpResponse by rendering a template. The template engine builds the HTML and Django sends it back to the browser as a complete web page.</p>
+{% endblock %}

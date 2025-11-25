@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ex00: Markdown Cheatsheet.</title>
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --muted: #94a3b8;
+            --accent: #60a5fa;
+            --accent-2: #34d399;
+            --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            color-scheme: dark;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        body {
+            background: linear-gradient(180deg, #071024 0%, #071422 100%);
+            color: #e6eef8;
+            padding: 32px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 6px 30px rgba(2, 6, 23, 0.6);
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        p.lead {
+            color: var(--muted);
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
+
+        section {
+            margin: 22px 0;
+            padding: 18px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-size: 18px;
+            color: var(--accent);
+        }
+
+        h3 {
+            margin: 10px 0;
+            font-size: 15px;
+            color: var(--accent-2);
+        }
+
+        pre,
+        code {
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.45
+        }
+
+        pre {
+            background: #020617;
+            padding: 14px;
+            border-radius: 8px;
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            color: #dbeafe
+        }
+
+        code.inline {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        ul {
+            margin: 8px 0 8px 20px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: left
+        }
+
+        .example {
+            margin-top: 8px
+        }
+
+        .small {
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        footer {
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        @media (max-width:720px) {
+            .container {
+                padding: 18px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ex00: Markdown Cheatsheet.</h1>
+        <p class="lead">Comprehensive quick reference for Markdown (CommonMark core + common GitHub Flavored Markdown
+            extensions). Shows syntax, examples, and notes on behavior.</p>
+
+        <section>
+            <h2>1. Basic document structure</h2>
+            <p class="small">A Markdown document is made of blocks (headings, paragraphs, lists, blockquotes, code
+                blocks) and inline elements (emphasis, links, code spans, images).</p>
+
+            <h3>Headings</h3>
+            <pre><code># H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6
+</code></pre>
+            <div class="example small">ATX-style (hashes) is most common. Underline style also exists for H1/H2
+                (setext):</div>
+            <pre><code>Title
+=====
+
+Subtitle
+--------
+</code></pre>
+
+            <h3>Paragraphs and line breaks</h3>
+            <pre><code>One paragraph.
+
+Another paragraph.</code></pre>
+            <div class="example small">A single newline becomes a space. Add two spaces at end of line or use &lt;br&gt;
+                to force a line break.</div>
+
+            <h3>Emphasis</h3>
+            <pre><code>*italic*   _italic_
+**bold**    __bold__
+***bold+italic***</code></pre>
+
+            <h3>Inline code</h3>
+            <pre><code>Use `code` for inline snippets. For backticks inside code, wrap with more backticks: ``Use `x` inside``</code></pre>
+
+            <h3>Code blocks</h3>
+            <pre><code>Indented code block (4 spaces)
+    def foo(): 
+        pass
+
+Fenced code block
+```python
+def hello():
+    print("hi")
+```</code></pre>
+            <div class="example small">Fenced code blocks can specify a language for syntax highlighting.</div>
+        </section>
+        
+        <footer>Markdown Cheatsheet &copy; 2024</footer>
+    </div>
+</body>
+
+</html>

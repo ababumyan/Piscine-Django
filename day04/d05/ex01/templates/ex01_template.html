@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Ex01: Template engine.{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'ex01/style2.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Template engine</h1>
+
+<p>The Django template engine processes templates using context variables and tags.</p>
+
+<h2>Blocks</h2>
+<p>Blocks define editable sections in child templates.</p>
+
+<h2>Loops</h2>
+<p>Use: {% for item in list %} ... {% endfor %}</p>
+
+<h2>if structures</h2>
+<p>Use: {% if condition %} ... {% endif %}</p>
+
+<h2>Variable display</h2>
+<p>Variables passed from views appear like: {{ variable }}</p>
+
+{% endblock %}

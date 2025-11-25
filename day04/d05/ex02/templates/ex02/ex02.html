@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ex02: Form & History</title>
+    <!-- <link rel="stylesheet" href="{% static 'ex02/ex02.css' %}"> -->
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f6fc; margin:0; padding:0; }
+        .container { max-width: 700px; margin: 50px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2563eb; margin-bottom: 20px; }
+        form { display: flex; gap: 10px; margin-bottom: 30px; }
+        input[type="text"] { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; }
+        input[type="submit"] { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 10px 20px; cursor: pointer; transition: 0.3s; }
+        input[type="submit"]:hover { background: #3b82f6; }
+        .history { background: #f1f5f9; border-radius: 8px; padding: 15px; max-height: 400px; overflow-y: auto; }
+        .entry { padding: 6px 0; border-bottom: 1px solid #e2e8f0; }
+        .timestamp { color: #64748b; font-size: 0.9rem; margin-right: 10px; }
+        .text { font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ex02: Form & History</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.text }}
+            <input type="submit" value="Submit">
+        </form>
+
+        <div class="history">
+            {% if history %}
+                {% for entry in history %}
+                    <div class="entry">
+                        <span class="timestamp">{{ entry.timestamp }}</span>
+                        <span class="text">{{ entry.text }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No entries yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
