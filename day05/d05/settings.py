@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ex00',
+    'ex01',
+    'ex02',
+    'ex03',
+    
 ]
 
 MIDDLEWARE = [
@@ -73,10 +83,23 @@ WSGI_APPLICATION = 'd05.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+print("Database settings:")
+
+
+print(f"POSTGRES_DB: {os.environ.get('POSTGRES_DB')}")
+print(f"POSTGRES_USER: {os.environ.get('POSTGRES_USER')}")
+print(f"POSTGRES_PASSWORD: {os.environ.get('POSTGRES_PASSWORD')}")
+print(f"POSTGRES_HOST: {os.environ.get('POSTGRES_HOST')}")
+print(f"POSTGRES_PORT: {os.environ.get('POSTGRES_PORT')}")
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
 

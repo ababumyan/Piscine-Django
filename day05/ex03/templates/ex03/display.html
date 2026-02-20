@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movies List</h1>
+    <table>
+        <tr>
+            <th>TITLE</th>
+            <th>EPISODE NUMBER</th>
+            <th>Opening Crawl</th>
+            <th>Director</th>
+            <th>Producer</th>
+            <th>Release Date</th>
+        </tr>
+          {% for movie in movies %}
+                <tr>
+                    <td>{{ movie.title }}</td>
+                    <td>{{ movie.episode_nb }}</td>
+                    <td>{{ movie.opening_crawl }}</td>
+                    <td>{{ movie.director }}</td>
+                    <td>{{ movie.producer }}</td>
+                    <td>{{ movie.release_date }}</td>
+                </tr>
+            {% endfor %}
+    </table>
+</body>
+
+</html>
