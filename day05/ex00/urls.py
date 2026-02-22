@@ -1,7 +1,7 @@
-from .views  import index
+from .views  import init
 from django.urls import path
 
 
 urlpatterns = [
-    path('init/', index, name='index'),
+    path('init/', init, name='init'),
 ]

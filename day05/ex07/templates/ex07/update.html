@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Movie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <h1 class="h3 mb-2">Update Movie Opening Crawl</h1>
+                        <p class="text-muted mb-4">Select a movie, write the new opening crawl text, then save your update.</p>
+
+                        <div id="status" class="alert d-none" role="alert"></div>
+
+                        <form method="post" onsubmit="updateOpeningCrawl(); return false;">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Select a Movie to Update:</label>
+                <select class="form-control" id="title" name="title">
+                    {% for movie in movies %}
+                    <option value="{{ movie.title }}">
+                       {{ movie.title }} - {% if movie.opening_crawl %}{{ movie.opening_crawl | truncatewords:10 }}{% else %}<span style="color: red;">⚠ EMPTY</span>{% endif %} (Updated: {{movie.updated|date:"d-M H:i"}}, Created: {{movie.created|date:"Y-m-d"}})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="opening_crawl">New Opening Crawl:</label>
+                <textarea class="form-control" id="opening_crawl" name="opening_crawl" rows="7" placeholder="Write the new opening crawl here..."></textarea>
+                <small class="form-text text-muted">Your text will replace the current opening crawl for the selected movie.</small>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Save Update</button>
+        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.className = `alert alert-${type}`;
+            status.textContent = message;
+        }
+
+        function updateOpeningCrawl() {
+            const title = document.getElementById('title').value;
+            const openingCrawl = document.getElementById('opening_crawl').value;
+
+            if (!openingCrawl.trim()) {
+                showStatus('Opening crawl cannot be empty.', 'warning');
+                return;
+            }
+
+            fetch(`/ex07/update/${title}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ opening_crawl: openingCrawl })
+            })
+            .then(response => response.json().then(data => ({ ok: response.ok, data })))
+            .then(data => {
+                showStatus(data.data.message, data.ok ? 'success' : 'danger');
+                data.ok && setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showStatus('An unexpected error occurred. Please try again.', 'danger');
+            });
+        }
+    </script>
+</body>
+</html>

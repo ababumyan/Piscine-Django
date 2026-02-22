@@ -1,0 +1,1 @@
+CREATE OR REPLACE FUNCTION update_changetimestamp_column() RETURNS TRIGGER AS $$ BEGIN NEW.updated = now(); NEW.created = OLD.created; RETURN NEW; END; $$ language 'plpgsql'; CREATE TRIGGER update_films_changetimestamp BEFORE UPDATE ON ex06_movies FOR EACH ROW EXECUTE PROCEDURE update_changetimestamp_column();

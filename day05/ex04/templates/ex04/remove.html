@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Remove Movies</h1>
+    <select id="movie-select">
+        {% for movie in movies %}
+            <option value="{{ movie.1 }}">{{ movie.0 }} ,{{ movie.1 }} ,{{ movie.2 }} , {{ movie.3 }} , {{ movie.5 }}</option>
+        {% endfor %}
+    </select>
+    <button onclick="removeMovie()">Remove</button>
+    <script>
+        async function removeMovie() {
+            const select = document.getElementById('movie-select');
+            const episodeNumber = select.value;
+            try {
+                const response = await fetch(`/ex04/remove/id/${encodeURIComponent(episodeNumber)}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const contentType = response.headers.get('content-type') || '';
+                const data = contentType.includes('application/json')
+                    ? await response.json()
+                    : { success: response.ok };
+
+                console.log(data);
+                
+                if (data.success) {
+                    alert('Movie removed successfully!');
+                    location.reload();
+                } else {
+                    alert('Failed to remove movie.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while removing the movie.');
+            }
+        }
+    </script>
+</body>
+
+</html>

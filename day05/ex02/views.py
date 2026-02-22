@@ -28,20 +28,7 @@ def init(request):
     except DataError as e:
         return HttpResponse(f'DataError: {e}', status=500)
     
-
-
-
-def populate(request):
-    try:
-        conn = connect(
-            host=settings.DATABASES['default']['HOST'],
-            port=settings.DATABASES['default']['PORT'],
-            database=settings.DATABASES['default']['NAME'],
-            user=settings.DATABASES['default']['USER'],
-            password=settings.DATABASES['default']['PASSWORD']
-        )
-        conn.cursor().execute('SELECT 1')  # Test the connection
-        movies = [
+movies = [
             {
                 "episode_nb": 1,
                 "title": "The Phantom Menace",
@@ -106,6 +93,19 @@ def populate(request):
                 "release_date": "2019-12-18"
             },
         ]
+
+
+
+def populate(request):
+    try:
+        conn = connect(
+            host=settings.DATABASES['default']['HOST'],
+            port=settings.DATABASES['default']['PORT'],
+            database=settings.DATABASES['default']['NAME'],
+            user=settings.DATABASES['default']['USER'],
+            password=settings.DATABASES['default']['PASSWORD']
+        )
+        conn.cursor().execute('SELECT 1')  # Test the connection
         for movie in movies:
             conn.cursor().execute("""INSERT INTO ex02_movies (episode_nb, title, director, producer, release_date) 
                                     VALUES (%s, %s, %s, %s, %s) 

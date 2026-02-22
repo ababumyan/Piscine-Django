@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponse
 
 
 # Create your views here.
-def index(request):
+def init(request):
     try:
         conn = connect(
             host=settings.DATABASES['default']['HOST'],
@@ -33,3 +33,5 @@ def index(request):
         return HttpResponse(f'DataError: {e}', status=500)
     except Exception as e:
         return HttpResponse(f'Error: {e}', status=500)
+    
+
