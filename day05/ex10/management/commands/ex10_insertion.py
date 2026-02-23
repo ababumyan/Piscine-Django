@@ -96,7 +96,7 @@ class Command(BaseCommand):
                         hair_color=person['hair_color'],
                         height=person['height'],
                         mass=person['mass'],
-                        homeworld=Planet.objects.get(name=find_planet(person['homeworld'])) if find_planet(person['homeworld']) else None
+                        homeworld=Planet.objects.get(name=person['homeworld']) if person['homeworld'] else None
                     ) for person in people_data if person['homeworld'] is not None
                     ],ignore_conflicts=True)
                 movies_instances = Movies.objects.bulk_create([
