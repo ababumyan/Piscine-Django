@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Character Search</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(102,126,234,0.15);
+            padding: 32px 24px;
+        }
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 32px;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        label {
+            font-weight: 500;
+            color: #333;
+        }
+        input, select {
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccd;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 4px;
+        }
+        .form-group {
+            flex: 1 1 45%;
+            min-width: 180px;
+        }
+        .form-group-full {
+            flex: 1 1 100%;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 32px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #764ba2 100%);
+        }
+        .results {
+            margin-top: 32px;
+        }
+        .result-row {
+            background: #f8f9ff;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            padding: 16px 12px;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.07);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .result-row span {
+            font-size: 1em;
+            color: #333;
+            font-weight: 500;
+        }
+        .no-results {
+            text-align: center;
+            color: #999;
+            font-size: 1.1em;
+            margin-top: 24px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 6px;
+            }
+            form {
+                gap: 8px;
+            }
+            .form-group {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Character Search</h1>
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="minimum_release_date">Minimum Release Date</label>
+                <input type="date" id="minimum_release_date" name="minimum_release_date" required>
+            </div>
+            <div class="form-group">
+                <label for="maximum_release_date">Maximum Release Date</label>
+                <input type="date" id="maximum_release_date" name="maximum_release_date" required>
+            </div>
+            <div class="form-group">
+                <label for="minimum_planet_diameter">Planet Diameter Greater Than</label>
+                <input type="number" id="minimum_planet_diameter" name="minimum_planet_diameter" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="character_gender">Character Gender</label>
+                <select id="character_gender" name="character_gender" required>
+                    <option value="">Select gender</option>
+                </select>
+            </div>
+            <div class="form-group-full">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        <div class="results" id="results"></div>
+    </div>
+    <script>
+        // Fetch genders from backend
+        fetch('/ex10/get_genders/')
+            .then(response => response.json())
+            .then(genders => {
+                const genderSelect = document.getElementById('character_gender');
+                genders.forEach(gender => {
+                    const option = document.createElement('option');
+                    option.value = gender;
+                    option.textContent = gender;
+                    genderSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching genders:', error));
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = {
+                minimum_release_date: document.getElementById('minimum_release_date').value,
+                maximum_release_date: document.getElementById('maximum_release_date').value,
+                minimum_planet_diameter: document.getElementById('minimum_planet_diameter').value,
+                character_gender: document.getElementById('character_gender').value
+            };
+            fetch('/ex10/filter_movies/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = '';
+                if (data.message) {
+                    resultsDiv.innerHTML = `<div class="no-results">${data.message}</div>`;
+                } else if (Array.isArray(data)) {
+                    data.forEach(result => {
+                        resultsDiv.innerHTML += `<div class="result-row">
+                            <span><b>Film:</b> ${result.film_title}</span>
+                            <span><b>Character:</b> ${result.character_name}</span>
+                            <span><b>Gender:</b> ${result.gender}</span>
+                            <span><b>Homeworld:</b> ${result.homeworld_name}</span>
+                            <span><b>Diameter:</b> ${result.homeworld_diameter}</span>
+                        </div>`;
+                    });
+                }
+            });
+        });
+        // CSRF helper
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

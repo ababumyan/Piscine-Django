@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'ex08',
     'ex09',
     'ex10',
+    'data',
+    'core',
     
 ]
 
