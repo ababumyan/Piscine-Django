@@ -1,79 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day 06</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: system-ui, sans-serif;
-            line-height: 1.5;
-            color: #1a1a1a;
-            background: #f5f5f5;
-        }
-        header {
-            background: #2c3e50;
-            color: #fff;
-        }
-        header nav {
-            max-width: 48rem;
-            margin: 0 auto;
-            padding: 1rem 1.5rem;
-        }
-        #greeting {
-            font-size: 1.125rem;
-            font-weight: 600;
-        }
-        main {
-            max-width: 48rem;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav>
-            <span id="greeting">Hello …</span>
-        </nav>
-    </header>
-    <main>
-        <h1>Session demo</h1>
-        <p>Your random username appears in the header as soon as this page loads.</p>
-    </main>
-    <script>
-        const SESSION_DURATION_MS = {{ session_duration }} * 1000;
-        const greetingEl = document.getElementById('greeting');
-        let refreshTimer;
+{% extends "ex/base.html" %}
 
-        function setGreeting(username) {
-            greetingEl.textContent = `Hello ${username}!`;
-        }
+{% block title %}Life Pro Tips{% endblock %}
 
-        function scheduleRefresh(userSession) {
-            clearTimeout(refreshTimer);
-            const startedAt = new Date(userSession.replace(' ', 'T')).getTime();
-            const delay = Math.max(0, startedAt + SESSION_DURATION_MS - Date.now());
-            refreshTimer = setTimeout(refreshUser, delay + 50);
-        }
+{% block content %}
+    <h1>Session demo</h1>
+    <p>Your random username appears in the header as soon as this page loads.</p>
+{% endblock %}
 
-        async function refreshUser() {
-            try {
-                const response = await fetch('{% url "get_random_user" %}');
-                const data = await response.json();
-                if (data.username) {
-                    setGreeting(data.username);
-                }
-                if (data.user_session) {
-                    scheduleRefresh(data.user_session);
-                }
-            } catch (error) {
-                greetingEl.textContent = 'Hello guest!';
+{% block extra_js %}
+{% if not user.is_authenticated %}
+<script>
+    const SESSION_DURATION_MS = {{ session_duration }} * 1000;
+    const greetingEl = document.getElementById('greeting');
+    let refreshTimer;
+
+    function setGreeting(username) {
+        greetingEl.textContent = `Hello ${username}!`;
+    }
+
+    function scheduleRefresh(userSession) {
+        clearTimeout(refreshTimer);
+        const startedAt = new Date(userSession.replace(' ', 'T')).getTime();
+        const delay = Math.max(0, startedAt + SESSION_DURATION_MS - Date.now());
+        refreshTimer = setTimeout(refreshUser, delay + 100);
+    }
+
+    async function refreshUser() {
+        try {
+            const response = await fetch('{% url "get_random_user" %}');
+            const data = await response.json();
+            if (data.username) {
+                setGreeting(data.username);
             }
+            if (data.user_session) {
+                scheduleRefresh(data.user_session);
+            }
+        } catch (error) {
+            greetingEl.textContent = 'Hello guest!';
         }
+    }
 
-        refreshUser();
-    </script>
-</body>
-</html>
+    refreshUser();
+</script>
+{% endif %}
+{% if user.is_authenticated %}
+    <h1>Life Pro Tips</h1>
+    <p>Your random username appears in the header as soon as this page loads.</p>
+{% endif %}
+{% endblock %}

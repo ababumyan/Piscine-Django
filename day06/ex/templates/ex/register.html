@@ -1,0 +1,26 @@
+{% extends "ex/base.html" %}
+
+{% block title %}Register — Life Pro Tips{% endblock %}
+
+{% block content %}
+    <h1>Register</h1>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <p>
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+            {{ form.username.errors }}
+        </p>
+        <p>
+            <label for="{{ form.password1.id_for_label }}">Password</label>
+            {{ form.password1 }}
+            {{ form.password1.errors }}
+        </p>
+        <p>
+            <label for="{{ form.password2.id_for_label }}">Password confirmation</label>
+            {{ form.password2 }}
+            {{ form.password2.errors }}
+        </p>
+        <button type="submit">Register</button>
+    </form>
+{% endblock %}
